@@ -16,6 +16,9 @@ then
   grep -v ^RESOLV_CONF= /etc/default/dnsmasq > /tmp/dnsmasq.$$
   mv /tmp/dnsmasq.$$ /etc/default/dnsmasq
   echo RESOLV_CONF=/etc/dnsmasq.resolv.conf >> /etc/default/dnsmasq
+  # Disable caching of negative responses - this prevents failures if we start querying before the
+  # DNS charm has updated its records
+  sed -i "s/#no-negcache/no-negcache/g" /etc/dnsmasq.conf
   service dnsmasq restart
 fi
 
