@@ -1,0 +1,38 @@
+#!/usr/bin/python
+
+import amulet
+import subprocess
+import sys, os
+
+# Load our recommended bundle
+d = amulet.Deployment.from_bundle("charms/bundles/clearwater/bundle/bundles.yaml")
+
+# Configure 'testing.example.com' as the common home domain, and 'testing' as
+# the Ellis signup key
+options = {'zone': 'testing.example.com'}
+for service in ['clearwater-bono', 'clearwater-sprout', 'clearwater-ralf', 'clearwater-homestead', 'clearwater-homer', 'clearwater-ellis']:
+    d.configure(service, options)
+
+d.configure('clearwater-ellis', options={'signup_key': 'testing'})
+d.configure('dns', options={'domain': 'testing.example.com'})
+
+# Exposed services aren't learnt from the bundle - do that manually
+d.expose('clearwater-ellis')
+d.expose('clearwater-bono')
+
+# Create the deployment described above, give us 900 seconds to do it
+d.setup(timeout=900)
+# Setup will only make sure the services are deployed, related, and in a
+# "started" state. We can employ the sentries to actually make sure there
+# are no more hooks being executed on any of the nodes.
+d.sentry.wait()
+
+# Learn the public IP addresses of Bono and Ellis
+bono = d.sentry['clearwater-bono/0'].info['public-address']
+ellis = d.sentry['clearwater-ellis/0'].info['public-address']
+
+# Run the 'basic call' test against Bono and Ellis
+sys.stderr.write('About to run live tests\n')
+subprocess.check_call(
+    'cd tests/clearwater-live-test && bundle install --path localgems && bundle exec rake test[testing.example.com] TESTS="Basic Call - Mainline" TRANSPORT=TCP ELLIS={} PROXY={} SIGNUP_CODE="testing" >&2'.format(ellis, bono),
+    shell=True)

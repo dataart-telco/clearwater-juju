@@ -1,0 +1,3 @@
+[submodule "tests/clearwater-live-test"]
+	path = tests/clearwater-live-test
+	url = https://github.com/Metaswitch/clearwater-live-test.git
