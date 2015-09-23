@@ -6,8 +6,16 @@ TTL=300
 id=$(cut -d/ -f2 <<< $JUJU_UNIT_NAME)
 ip=$(unit-get public-address)
 relation-set domain=$(config-get zone)
-relation-set resources='ellis '$TTL' IN A '$ip'
-ellis-'$id' '$TTL' IN A '$ip
+
+# transmit a JSON with all the action .. make a sequencial build of the JSON for readability
+RJSON=`printf '[ {"rr":"A","alias":"ellis","ttl":"%s","addr":"%s"}' $TTL $ip `
+RJSON=$RJSON`printf ',{"rr":"A","alias":"ellis-%s","ttl":"%s","addr":"%s"}' $id $TTL $ip`
+RJSON=$RJSON' ]'
+relation-set resources="$RJSON"
+
+## the result in you db.zone whould be :
+#ellis '$TTL' IN A '$ip'
+#ellis-'$id' '$TTL' IN A '$ip
 
 # Update our DNS server
 if [ "$(relation-get private-address)" != "" ]
