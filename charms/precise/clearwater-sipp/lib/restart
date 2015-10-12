@@ -2,4 +2,4 @@
 set -e
 
 service clearwater-infrastructure restart
-service clearwater-sip-stress restart
+TERM=linux service clearwater-sip-stress restart

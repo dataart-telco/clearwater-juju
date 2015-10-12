@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+# Update Clearwater configuration and restart
+juju-log "Connecting to P-CSCF"
+$CHARM_DIR/lib/config_script pcscf-changed
+$CHARM_DIR/lib/restart

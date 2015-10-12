@@ -2,10 +2,13 @@
 
 set -e
 
+relation_hook=$1
+
 # Defaults
 sprout_hostname=sprout.$(config-get zone)
 hs_hostname=homestead.$(config-get zone):8888
 hs_provisioning_hostname=homestead.$(config-get zone):8889
+stress_target=blackhole.example.com
 xdms_hostname=
 ralf_hostname=
 sas_server=
@@ -20,6 +23,12 @@ local_ip=$(unit-get private-address)
 public_ip=$(unit-get public-address)
 public_hostname=sipp-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)
 node_idx=$(($(cut -d/ -f2 <<< $JUJU_UNIT_NAME) + 1))
+user_count=$(config-get user_count)
+if [[ $relation_hook == "pcscf-changed" ]]
+then
+  juju-log "Setting stress target to $home_domain"
+  stress_target=$home_domain
+fi
 
 # Write configuration back
 mkdir -p /etc/clearwater
@@ -34,6 +43,9 @@ ralf_hostname=$ralf_hostname
 sas_server=$sas_server
 enum_server=$enum_server
 node_idx=$node_idx
+
+stress_target=$stress_target
+count=$user_count
 
 # Local IP configuration
 local_ip=$local_ip
