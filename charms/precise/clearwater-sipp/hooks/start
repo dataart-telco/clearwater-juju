@@ -7,4 +7,4 @@ set -e
 # This hook needs to be idempotent, so this could be run when
 # clearwater-sip-stress is already running.  As a result, we should always
 # restart it.
-service clearwater-sip-stress restart
+$CHARM_DIR/lib/restart
