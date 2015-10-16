@@ -18,9 +18,15 @@ enum_server=
 
 # Apply new configuration
 home_domain=$(config-get zone)
-billing_realm=billing.$(config-get zone)
 sas_server=$(config-get sas)
 cdf=$(config-get cdf)
+billing_realm=$(config-get cdf-realm)
+
+if [ -z $billing_realm ]
+then
+  billing_realm=billing.$(config-get zone)
+fi
+
 local_ip=$(unit-get private-address)
 public_ip=$(unit-get public-address)
 public_hostname=ralf-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)

@@ -10,6 +10,10 @@ options:
     default: ""
     description: The location of the CDF to bill to
     type: string 
+  cdf-realm:
+    default: ""
+    description: The Diameter realm of the CDF (if empty, billing.$zone is used)
+    type: string 
   repo:
     default: http://repo.cw-ngv.com/juju-clearwater-1/
     description: The location of the repo server
