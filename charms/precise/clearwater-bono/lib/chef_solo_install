@@ -5,9 +5,7 @@
 apt-get -y install git libxml2-dev libxslt1-dev wget curl
 
 # Install chef
-install_sh="http://opscode.com/chef/install.sh"
-version_string="-v 11.6.0"
-bash <(wget  ${install_sh} -O -) ${version_string}
+$CHARM_DIR/lib/chef-install.sh -v 11.6.0
 
 # Pull down the Clearwater chef recipes
 if [ ! -d /home/ubuntu/chef-solo ]
