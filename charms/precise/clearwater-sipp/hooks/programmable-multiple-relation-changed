@@ -5,9 +5,9 @@ set -e
 id=$(cut -d/ -f2 <<< $JUJU_UNIT_NAME)
 ip=$(unit-get public-address)
 relation-set domain=$(config-get zone)
-DNS_JSON=`$CHARM_DIR/lib/generate_dns_records $ip sipp sipp-$id`
+DNS_JSON=$($CHARM_DIR/lib/generate_dns_records $ip sipp sipp-$id)
+DNS_JSON="'$DNS_JSON'"
 relation-set resources=$DNS_JSON
-relation-set resources='sipp-'$id' '$TTL' IN A '$ip
 
 # Update our DNS server
 if [ "$(relation-get private-address)" != "" ]
