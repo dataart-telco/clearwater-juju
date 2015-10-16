@@ -6,6 +6,10 @@ options:
     default: ""
     description: The location of the SAS server
     type: string
+  cdf:
+    default: ""
+    description: The location of the CDF to bill to
+    type: string 
   repo:
     default: http://repo.cw-ngv.com/juju-clearwater-1/
     description: The location of the repo server

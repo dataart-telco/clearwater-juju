@@ -7,7 +7,7 @@ sprout_hostname=sprout.$(config-get zone)
 hs_hostname=homestead.$(config-get zone):8888
 hs_provisioning_hostname=homestead.$(config-get zone):8889
 xdms_hostname=
-ralf_hostname=
+ralf_hostname=ralf.$(config-get zone):10888
 enum_server=
 
 # Import existing configuration
@@ -22,6 +22,7 @@ local_ip=$(unit-get private-address)
 public_ip=$(unit-get public-address)
 public_hostname=bono-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)
 turn_workaround=$(config-get turn_workaround)
+cdf=$(config-get cdf)
 
 # Write configuration back
 mkdir -p /etc/clearwater
@@ -35,6 +36,7 @@ xdms_hostname=$xdms_hostname
 ralf_hostname=$ralf_hostname
 sas_server=$sas_server
 enum_server=$enum_server
+cdf_identity=$cdf
 
 # Local IP configuration
 local_ip=$local_ip

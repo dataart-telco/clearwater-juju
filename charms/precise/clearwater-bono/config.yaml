@@ -7,6 +7,10 @@ options:
     default: ""
     description: The location of the SAS server
     type: string
+  cdf:
+    default: ""
+    description: The location of the CDF to bill to
+    type: string 
   turn_workaround: 
     default: ""
     description: TURN workaround password, used by faulty WebRTC clients
