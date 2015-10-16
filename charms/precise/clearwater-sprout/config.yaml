@@ -18,6 +18,10 @@ options:
     default: 600
     description: Maximum session expiry time (sec)
     type: int
+  target_latency_us:
+    default: 1000000
+    description: Target request latency for overload control (microseconds)
+    type: int
   repo:
     default: http://repo.cw-ngv.com/juju-clearwater-1/
     description: The location of the repo server

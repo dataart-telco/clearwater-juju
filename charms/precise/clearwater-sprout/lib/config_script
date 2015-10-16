@@ -28,6 +28,7 @@ public_ip=$(unit-get public-address)
 public_hostname=sprout-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)
 reg_max_expires=$(config-get reg_max_expires)
 default_session_expires=$(config-get session_max_expires)
+target_latency_us=$(config-get target_latency_us)
 
 # Write configuration back
 mkdir -p /etc/clearwater
@@ -50,4 +51,5 @@ public_hostname=$public_hostname
 
 reg_max_expires=$reg_max_expires
 default_session_expires=$default_session_expires
+target_latency_us=$target_latency_us
 EOF
