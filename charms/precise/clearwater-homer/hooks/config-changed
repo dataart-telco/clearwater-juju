@@ -6,7 +6,4 @@ set -e
 $CHARM_DIR/lib/config_script
 $CHARM_DIR/lib/node_json_script
 chef-solo -c /home/ubuntu/chef-solo/solo.rb -j /home/ubuntu/chef-solo/node.json
-
-# Restart clearwater-infrastructure, and stop homer (to be restarted by monit)
-service clearwater-infrastructure restart
-service homer stop
+$CHARM_DIR/lib/restart

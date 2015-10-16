@@ -61,8 +61,6 @@ clearwater-route53 does not current support scaling out.
 
 The only currently supported DNS service for Clearwater is clearwater-route53 (when deploying in Amazon EC2), so will currently only work on EC2.  Additional DNS services will be added for other environments in future.
 
-Note that this charm does not current pass charm proof because its hooks use EC2 APIs directly to obtain the public IP address rather than unit-get public-address.  This is to work around what looks like a Juju bug - unit-get public-address on EC2 returns the public hostname of the unit rather than the public IP address.  Unfortunately EC2 public hostname are actually split horizon hostnames, so if you attempt to resolve the hostname from within EC2 it actually resolved to a private IP address - it will only resolve to a public address if resolved from outside EC2.
-
 # Configuration
 
 Clearwater has a number of configuration fields which are non-defaultable.  These are as follows.

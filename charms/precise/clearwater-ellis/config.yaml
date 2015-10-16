@@ -1,4 +1,7 @@
 options:
+  zone:
+    description: The DNS root zone for this service
+    type: string
   smtp_server:
     default: ""
     description: The SMTP server to send password recovery emails from
@@ -26,6 +29,6 @@ options:
     description: The count of numbers to allocate
     type: int
   repo:
-    default: http://repo.cw-ngv.com/stable
+    default: http://repo.cw-ngv.com/juju-clearwater-1/
     description: The location of the repo server
     type: string

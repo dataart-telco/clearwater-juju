@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+service clearwater-infrastructure restart
+
+# Set TERM to work around https://github.com/SIPp/sipp/issues/75, Juju runs
+# hooks without a TERM variable set.
+TERM=linux service clearwater-sip-stress restart

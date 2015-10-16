@@ -26,7 +26,7 @@ args = parser.parse_args()
 # Populate the dictionary
 d = {}
 
-d['LOCAL_IP'] = socket.gethostbyname(subprocess.check_output(["unit-get", "private-address"]).rstrip())
+d['LOCAL_IP'] = subprocess.check_output(["unit-get", "private-address"]).rstrip()
 d['MACHINE_ID'] = str(int(os.environ['JUJU_UNIT_NAME'].split('/')[1]) + 1)
 d['REPO'] = subprocess.check_output(["config-get", "repo"]).rstrip()
 

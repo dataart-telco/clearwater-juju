@@ -6,5 +6,12 @@ categories:
   - misc
 subordinate: false
 requires:
-  dns-agent:
-    interface: dns-register
+  programmable-multiple:
+    interface: dns-multi
+  homestead-prov:
+    interface: homestead-prov-interface
+  xdms:
+    interface: 3GPP-Ut
+provides:
+  as-catalog:
+    interface: as-register

@@ -1,6 +1,0 @@
-#!/bin/bash
-
-apt-get install -y bind9
-
-open-port 53/udp
-open-port 53/tcp

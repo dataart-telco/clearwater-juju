@@ -1,4 +1,0 @@
-#!/bin/bash
-set -e
-
-$CHARM_DIR/lib/dns_hook

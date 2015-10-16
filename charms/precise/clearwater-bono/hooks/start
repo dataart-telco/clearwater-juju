@@ -7,10 +7,11 @@ set -e
 # This hook needs to be idempotent, so this could be run when bono is
 # already running, when it's running but not monitored by monit, when
 # it's stopped but being monitored (so it's about to start), or stopped
-# and unmonitored. To cover all these cases, stop monit, start bono, start
-# monit, then finally have monit monitor bono
-service clearwater-monit stop
-service bono start
-service clearwater-monit start
+# and unmonitored. To cover all these cases, restart bono, restart monit,
+# then finally have monit monitor bono.  Note that restarting monit can
+# fail because init will also restart it when it stops and restarting
+# bono can fail because monit will restart it.
+service bono restart || /usr/bin/true
+service clearwater-monit restart || /usr/bin/true
 sleep 1
 monit monitor bono

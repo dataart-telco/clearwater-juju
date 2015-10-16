@@ -9,7 +9,8 @@
   },
   "clearwater": {
     "index": $MACHINE_ID,
-    "repo_server": "$REPO"
+    "repo_server": "$REPO",
+    "trusted_peers": [$TRUSTED_PEERS]
   },
   "run_list": [
     "role[bono]"$CLUSTER

@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # This covers installing chef-solo and the Clearwater chef recipes
 # Install needed libraries
@@ -19,7 +18,8 @@ fi
 
 # Update the chef recipes
 cd /home/ubuntu/chef-solo
-git pull origin --recurse-submodules master
+git checkout release-70
+git submodule update --init
 
 # Create the solo.rb file
 cat > /home/ubuntu/chef-solo/solo.rb <<EOP

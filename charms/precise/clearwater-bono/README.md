@@ -1,88 +1,50 @@
 # Overview
 
-This charm supports deployment and scaling of the Bono component of a Project Clearwater system.  See http://www.projectclearwater.org for more information on Project Clearwater.
+This is a [Juju charm](https://jujucharms.com/about), which allows deployment and scaling of the [Bono](https://github.com/Metaswitch/sprout/#sprout-and-bono) component of a [Project Clearwater](http://projectclearwater.org) IMS core.
 
-# Usage
+Bono should only be deployed alongside the other Project Clearwater charms and a DNS server - see [our main Juju README](https://github.com/Metaswitch/clearwater-juju/blob/local_charms/README.md) for instructions on this, including a bundle that makes this deployment simple.
 
-The Bono service should be deployed as part of a Clearwater system.  A Clearwater system can be deployed in a Juju environment by creating a config.yaml file then running the following commands.
+# Deployment
 
-    juju deploy --config config.yaml clearwater-route53
-    juju deploy --config config.yaml clearwater-ellis
-    juju deploy --config config.yaml clearwater-bono
-    juju deploy --config config.yaml clearwater-sprout
-    juju deploy --config config.yaml clearwater-homestead
-    juju deploy --config config.yaml clearwater-homer
-    juju add-relation clearwater-ellis clearwater-route53:register-ellis
-    juju add-relation clearwater-bono clearwater-route53:register-bono
-    juju add-relation clearwater-sprout clearwater-route53:register-sprout
-    juju add-relation clearwater-homestead clearwater-route53:register-homestead
-    juju add-relation clearwater-homer clearwater-route53:register-homer
-    juju expose clearwater-bono
-    juju expose clearwater-ellis
+## Initial deployment
 
-The config.yaml configuration file takes the following format.
+The Bono service should be initially deployed as part of a Clearwater bundle, following the instructions in [our main README](https://github.com/Metaswitch/clearwater-juju/blob/local_charms/README.md).
 
-    clearwater-route53:
-      zone: <domain>
-      access_key: <ec2 access key>
-      secret_key: <ec2 secret access key>
-      sas: "0.0.0.0"
-
-    clearwater-ellis:
-      smtp_server: smtp.cw-ngv.com
-      smtp_username: username
-      smtp_password: password
-      email_sender: blackhole@cw-ngv.com<mailto:blackhole@cw-ngv.com>
-      signup_key: secret
-      base_number: "6505550000"
-      number_count: 1000
-      repo: http://repo.cw-ngv.com/stable
-
-    clearwater-bono:
-      turn_workaround: password
-      repo: http://repo.cw-ngv.com/stable
-
-    clearwater-sprout:
-      reg_min_expires: 400
-      session_max_expires: 900
-      repo: http://repo.cw-ngv.com/stable
-
-    clearwater-homestead:
-      repo: http://repo.cw-ngv.com/stable
-
-    clearwater-homer:
-      repo: http://repo.cw-ngv.com/stable
+Note that the clearwater-bono charm can only be deployed on the `amd64` architecture (although the provided bundle already enforces this constraint).
 
 ## Scale out Usage
 
-## Known Limitations and Issues
+clearwater-bono can be scaled up through the normal Juju mechanism of `juju add-unit clearwater-bono`.
 
-The only currently supported DNS service for Clearwater is clearwater-route53 (when deploying in Amazon EC2), so will currently only work on EC2.  Additional DNS services will be added for other environments in future.
+This will create a new Bono instance, and trigger the DNS server charm to add a DNS record for this Bono. (Unlike Sprout, Homestead, Homer and Ralf nodes, Bono nodes don't have a shared datastore, so don't need any cluster configuration.)
 
-clearwater-bono currently only supports running as a single unit.  Clustering support will be released shortly, which will allow units to be added to and removed from a clearwater-bono deployment using juju add-unit and juju remove-unit commands.
+# Using Bono
 
-Note that this charm does not current pass charm proof because its hooks use EC2 APIs directly to obtain the public IP address rather than unit-get public-address.  This is to work around what looks like a Juju bug - unit-get public-address on EC2 returns the public hostname of the unit rather than the public IP address.  Unfortunately EC2 public hostname are actually split horizon hostnames, so if you attempt to resolve the hostname from within EC2 it actually resolved to a private IP address - it will only resolve to a public address if resolved from outside EC2.
+Once installed, Bono will listen for SIP traffic on port 5060 (both TCP and UDP). Once you have created a SIP subscriber through the Ellis UI, you can use a standard SIP client (e.g. Blink, Boghe or X-Lite) to register against Bono's public IP (which you can find with `juju status clearwater-bono`) and make calls.
+
+Our ["Making your first call" documentation](http://clearwater.readthedocs.org/en/latest/Making_your_first_call/index.html) has more information on this process.
 
 # Configuration
 
-Clearwater has a number of configuration fields which are non-defaultable.  These are as follows.
+-  `zone:` The home domain of this IMS deployment - this could be a real domain that you own, or an internal-only name like "clearwater.local".
+-  `repo`: The URL of the Clearwater package repository server. Our latest relese, updated roughly every two weeks, is at http://repo.cw-ngv.com/stable.
+-  `sas`: (optional) The location of a [Metaswitch SAS server](http://www.metaswitch.com/products/management-systems/service-assurance-server) for diagnostics and call flows.
+-  `trusted_peers`: (optional) Comma-separated list of IP addresses of trusted peers, for when Bono is used as an IBCF rather than a P-CSCF.
 
-clearwater-route53
+The `zone`, `sas` and `repo` configuration options should be consistent across all Clearwater nodes in the deployment.
 
--  `zone:` This must be set to a DNS zone name which is managed by the AWS Route53 service.
--  `access_key:` and `secret_key:` These must be set to the AWS access key and secret key of the AWS account which owns the DNS zone name.
+# Files downloaded
 
-clearwater-ellis
+When the charm is being installed, several files are downloaded:
 
--  `signup_key:` This is used as a signup key on the Ellis self-provisioning portal, so should be set to a unique string for each installation.
--  `base_number:` and `number_count:` These define the telephone number range assigned to the Clearwater system.
+- Our standard Chef setup scripts, checked out from https://github.com/Metaswitch/chef.
+- The Bono Debian packages, from our package repository server at repo.cw-ngv.com.
+- Any dependencies of those Debian packages, from the standard Ubuntu repository servers.
 
-# Contact Information
+# Contact and Upstream Project Information
 
-## Upstream Project Name
+Project Clearwater is an open-source IMS core, developed by [Metaswitch Networks](http://www.metaswitch.com) and released under the [GNU GPLv3](http://www.projectclearwater.org/download/license/). You can find more information about it on [our website](http://www.projectclearwater.org/) or [our documentation site](https://clearwater.readthedocs.org).
 
-See http:www.projectclearwater.org and https://github.com/Metaswitch/clearwater-docs/wiki for information about clearwater.
+Clearwater source code and issue list can be found at https://github.com/Metaswitch/. Bono's source code can be found at https://github.com/Metaswitch/sprout/.
 
-Clearwater source code and issue list can be found at https://github.com/Metaswitch/.
-
-The Clearwater mailing list is at lists.projectclearwater.org.
+If you have problems when using Project Clearwater, read [our troubleshooting documentation](http://clearwater.readthedocs.org/en/latest/Troubleshooting_and_Recovery/index.html) for help, or see [our support page](http://clearwater.readthedocs.org/en/latest/Support/index.html) to find out how to ask mailing list questions or raise issues.

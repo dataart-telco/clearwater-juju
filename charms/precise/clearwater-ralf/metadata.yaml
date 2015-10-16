@@ -6,8 +6,11 @@ categories:
   - misc
 subordinate: false
 requires:
-  dns-agent:
-    interface: dns-register
+  programmable-multiple:
+    interface: dns-multi
+provides:
+  ralf-cscf:
+    interface: ralf-ctf-interface
 peers:
   ralf-relation:
     interface: ralf-interface
