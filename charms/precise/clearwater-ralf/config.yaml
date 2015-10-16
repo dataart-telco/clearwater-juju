@@ -6,6 +6,14 @@ options:
     default: ""
     description: The location of the SAS server
     type: string
+  cdf:
+    default: ""
+    description: The location of the CDF to bill to
+    type: string 
+  cdf-realm:
+    default: ""
+    description: The Diameter realm of the CDF (if empty, billing.$zone is used)
+    type: string 
   target_latency_us:
       default: 100000
       description: Target request latency for overload control (microseconds)

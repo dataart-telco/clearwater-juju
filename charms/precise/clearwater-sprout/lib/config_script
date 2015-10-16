@@ -9,7 +9,7 @@ sprout_hostname=sprout.$(config-get zone)
 hs_hostname=homestead.$(config-get zone):8888
 hs_provisioning_hostname=homestead.$(config-get zone):8889
 xdms_hostname=
-ralf_hostname=
+ralf_hostname=ralf.$(config-get zone):10888
 chronos_hostname=localhost:7253
 
 # Import existing configuration
