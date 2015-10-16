@@ -15,6 +15,10 @@ options:
     default: ""
     description: Comma-separated list of IP addresses of trusted peers
     type: string
+  target_latency_us:
+    default: 100000
+    description: Target request latency for overload control (microseconds)
+    type: int
   repo:
     default: http://repo.cw-ngv.com/juju-clearwater-1/
     description: The location of the repo server

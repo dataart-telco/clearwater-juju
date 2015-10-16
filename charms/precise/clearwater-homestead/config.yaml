@@ -7,7 +7,7 @@ options:
     description: The location of the SAS server
     type: string
   target_latency_us:
-    default: 1000000
+    default: 100000
     description: Target request latency for overload control (microseconds)
     type: int
   repo:
