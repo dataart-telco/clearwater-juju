@@ -22,6 +22,7 @@ local_ip=$(unit-get private-address)
 public_ip=$(unit-get public-address)
 public_hostname=bono-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)
 turn_workaround=$(config-get turn_workaround)
+target_latency_us=$(config-get target_latency_us)
 
 # Write configuration back
 mkdir -p /etc/clearwater
@@ -43,4 +44,5 @@ public_hostname=$public_hostname
 
 # Keys
 turn_workaround=$turn_workaround
+target_latency_us=$target_latency_us
 EOF
