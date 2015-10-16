@@ -22,6 +22,7 @@ sas_server=$(config-get sas)
 local_ip=$(unit-get private-address)
 public_ip=$(unit-get public-address)
 public_hostname=homestead-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)
+target_latency_us=$(config-get target_latency_us)
 
 # Write configuration back
 mkdir -p /etc/clearwater
@@ -40,4 +41,5 @@ enum_server=$enum_server
 local_ip=$local_ip
 public_ip=$public_ip
 public_hostname=$public_hostname
+target_latency_us=$target_latency_us
 EOF

@@ -30,6 +30,7 @@ fi
 local_ip=$(unit-get private-address)
 public_ip=$(unit-get public-address)
 public_hostname=ralf-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)
+target_latency_us=$(config-get target_latency_us)
 
 # Write configuration back
 mkdir -p /etc/clearwater
@@ -47,6 +48,7 @@ billing_realm=$billing_realm
 
 sas_server=$sas_server
 enum_server=$enum_server
+target_latency_us=$target_latency_us
 
 # Local IP configuration
 local_ip=$local_ip
