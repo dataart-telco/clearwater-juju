@@ -1,0 +1,33 @@
+#!/bin/bash
+# Reconfigures an all-in-one image to use a new home domain and number range.
+# Usage: reconfigure-aio <home-domain> [<base-number> <number-count>]
+
+# Get command-line arguments.
+home_domain=$1
+base_number=$2
+number_count=$3
+
+if [ -z "$home_domain" ] ; then
+  echo "Usage: reconfigure-aio <home-domain> [<base-number> <number-count>]"
+fi
+
+# Remove all old numbers from the database, unless they're currently assigned.
+old_home_domain=$(. /etc/clearwater/config ; echo $home_domain)
+echo "DELETE FROM ellis.numbers WHERE number LIKE '%@$old_home_domain' AND owner_id IS NULL ;" | mysql
+
+# Update /etc/clearwater/shared_config.
+function escape { echo $1 | sed -e 's/\//\\\//g' ; }
+sed -e 's/^home_domain=.*$/home_domain='$(escape $home_domain)'/g' \
+    </etc/clearwater/shared_config >/tmp/shared_config.$$
+mv /tmp/shared_config.$$ /etc/clearwater/shared_config
+
+# Restart clearwater-infrastructure to propagate changes to other configuration files.
+service clearwater-infrastructure restart
+
+# Create new numbers in the new domain, if we've been asked to.
+if [ -n "$base_number" ] && [ -n "$number_count" ] ; then
+  /usr/share/clearwater/ellis/env/bin/python /usr/share/clearwater/ellis/src/metaswitch/ellis/tools/create_numbers.py --start $base_number --count $number_count
+fi
+
+# Restart all the components.
+for X in /usr/share/clearwater/infrastructure/scripts/restart/* ; do $X ; done
