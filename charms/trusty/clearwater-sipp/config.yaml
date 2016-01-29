@@ -4,7 +4,7 @@ options:
     description: The DNS root zone for this service
     type: string
   repo:
-    default: http://repo.cw-ngv.com/stable
+    default: http://repo.cw-ngv.com/juju-clearwater-2
     description: The location of the repo server
     type: string
   user_count:

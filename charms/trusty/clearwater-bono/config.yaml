@@ -24,6 +24,6 @@ options:
     description: Target request latency for overload control (microseconds)
     type: int
   repo:
-    default: http://repo.cw-ngv.com/stable/
+    default: http://repo.cw-ngv.com/juju-clearwater-2/
     description: The location of the repo server
     type: string

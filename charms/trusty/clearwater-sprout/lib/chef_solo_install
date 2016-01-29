@@ -13,7 +13,7 @@ fi
 
 # Update the chef recipes
 cd /home/ubuntu/chef-solo
-git checkout stable
+git checkout release-90
 git submodule update --init
 
 # Create the solo.rb file

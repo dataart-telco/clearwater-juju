@@ -23,7 +23,7 @@ Once installed, clearwater-sip-stress will generate SIP traffic to TCP port 5060
 # Configuration
 
 -  `zone:` The home domain of this IMS deployment - this could be a real domain that you own, or an internal-only name like "clearwater.local".
--  `repo`: The URL of the Clearwater package repository server. Our latest relese, updated roughly every two weeks, is at http://repo.cw-ngv.com/stable.
+-  `repo`: The URL of the Clearwater package repository server. Our latest relese, updated roughly every two weeks, is at http://repo.cw-ngv.com/juju-clearwater-2.
 
 # Files downloaded
 

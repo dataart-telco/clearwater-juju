@@ -36,22 +36,22 @@ The config.yaml configuration file takes the following format.
       signup_key: secret
       base_number: "6505550000"
       number_count: 1000
-      repo: http://repo.cw-ngv.com/stable
+      repo: http://repo.cw-ngv.com/juju-clearwater-2
 
     clearwater-bono:
       turn_workaround: password
-      repo: http://repo.cw-ngv.com/stable
+      repo: http://repo.cw-ngv.com/juju-clearwater-2
 
     clearwater-sprout:
       reg_min_expires: 400
       session_max_expires: 900
-      repo: http://repo.cw-ngv.com/stable
+      repo: http://repo.cw-ngv.com/juju-clearwater-2
 
     clearwater-homestead:
-      repo: http://repo.cw-ngv.com/stable
+      repo: http://repo.cw-ngv.com/juju-clearwater-2
 
     clearwater-homer:
-      repo: http://repo.cw-ngv.com/stable
+      repo: http://repo.cw-ngv.com/juju-clearwater-2
 
 Note that the clearwater-ellis charm can only be deployed on the `amd64` architecture.
 

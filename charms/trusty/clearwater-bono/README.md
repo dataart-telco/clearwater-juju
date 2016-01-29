@@ -27,7 +27,7 @@ Our ["Making your first call" documentation](http://clearwater.readthedocs.org/e
 # Configuration
 
 -  `zone:` The home domain of this IMS deployment - this could be a real domain that you own, or an internal-only name like "clearwater.local".
--  `repo`: The URL of the Clearwater package repository server. Our latest relese, updated roughly every two weeks, is at http://repo.cw-ngv.com/stable.
+-  `repo`: The URL of the Clearwater package repository server. Our latest relese, updated roughly every two weeks, is at http://repo.cw-ngv.com/juju-clearwater-2.
 -  `sas`: (optional) The location of a [Metaswitch SAS server](http://www.metaswitch.com/products/management-systems/service-assurance-server) for diagnostics and call flows.
 -  `trusted_peers`: (optional) Comma-separated list of IP addresses of trusted peers, for when Bono is used as an IBCF rather than a P-CSCF.
 
