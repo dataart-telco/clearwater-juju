@@ -2,6 +2,8 @@
 
 This repository contains a collection of [Juju charms and deployment bundles](https://jujucharms.com/about), which support deployment and scaling of a [Project Clearwater](http://www.projectclearwater.org) IMS core.
 
+This repository also contains a proxy charm for managing an all-in-one node spun up from an OVA or QCOW2 image - for more information on that, see [its README.md](charms/trusty/clearwater-aio-proxy/README.md).
+
 # Usage
 
 Before deploying this charm, you should have bootstrapped a Juju environment, as documented at https://jujucharms.com/docs/stable/getting-started. This charm has been tested on Amazon EC2, with plans to test on OpenStack in the near future - if you get it working on a different cloud service, please let us know!

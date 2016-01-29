@@ -1,0 +1,5 @@
+"clearwater-aio-proxy":
+  proxied_ip: "1.2.3.4"
+  home_domain: "ims.clearwater.local"
+  base_number: "1234567000"
+  number_count: 1000
