@@ -2,10 +2,10 @@ create-user:
   description: Create a user.
   params:
     number:
-      description: The first number to provision
+      description: The number to provision
       type: string
     password:
-      description: The first number's password
+      description: The number's password
       type: string
   required: [number, password]
   additionalProperties: false
@@ -13,7 +13,7 @@ delete-user:
   description: Delete a user.
   params:
     number:
-      description: The first number to provision
+      description: The number to provision
       type: string
   required: [number]
   additionalProperties: false
