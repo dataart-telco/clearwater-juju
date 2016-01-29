@@ -10,7 +10,7 @@ Since the all-in-one node does not support scaling up, neither does this charm.
 
 ## Initial deployment
 
-The all-in-one VM image should be downloaded from [http://vm-images.cw-ngv.com/cw-aio.ova](http://vm-images.cw-ngv.com/cw-aio.ova) and deployed onto your virtualization platform.
+The all-in-one VM image should be downloaded from [http://repo.cw-ngv.com/juju-clearwater-2/cw-aio.ova](http://repo.cw-ngv.com/juju-clearwater-2/cw-aio.ova) and deployed onto your virtualization platform.  (You could alternatively try the latest all-in-one VM image from [http://vm-images.cw-ngv.com/](http://vm-images.cw-ngv.com/), but this may not have been tested with this charm - the juju-clearwater-2 version above is known to work.)
 
 The proxy charm should then be deployed, pointing at the all-in-one VM.
 
