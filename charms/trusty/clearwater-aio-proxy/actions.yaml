@@ -1,5 +1,16 @@
 create-user:
-  description: Create a user.
+  description: Create a user, failing if they already exist.
+  params:
+    number:
+      description: The number to provision
+      type: string
+    password:
+      description: The number's password
+      type: string
+  required: [number, password]
+  additionalProperties: false
+create-update-user:
+  description: Create a user, or update a user if they already exist.
   params:
     number:
       description: The number to provision
@@ -10,7 +21,7 @@ create-user:
   required: [number, password]
   additionalProperties: false
 delete-user:
-  description: Delete a user.
+  description: Delete a user.  If the user does not exist, this is still considered success.
   params:
     number:
       description: The number to provision
