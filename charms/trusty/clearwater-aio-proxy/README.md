@@ -33,7 +33,11 @@ Our ["Making your first call" documentation](http://clearwater.readthedocs.org/e
 
 This proxy charm exposes two actions.
 
--  `create-user`: Creates a user
+-  `create-user`: Creates a user, failing if they already exist
+    -  `number`: The number to provision
+    -  `password`: The number's password
+
+-  `create-update-user`: Creates a user, or updates if they already exist
     -  `number`: The number to provision
     -  `password`: The number's password
 
