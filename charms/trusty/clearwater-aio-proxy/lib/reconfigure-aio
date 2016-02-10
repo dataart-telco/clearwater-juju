@@ -12,22 +12,32 @@ if [ -z "$home_domain" ] ; then
 fi
 
 # Remove all old numbers from the database, unless they're currently assigned.
+# We do this even if the home domain hasn't changed, because the number range might have done (and
+# it's hard to tell if that's happened, and cheap/low-impact to just do the reprovisioning).
 old_home_domain=$(. /etc/clearwater/config ; echo $home_domain)
 echo "DELETE FROM ellis.numbers WHERE number LIKE '%@$old_home_domain' AND owner_id IS NULL ;" | mysql
 
-# Update /etc/clearwater/shared_config.
-function escape { echo $1 | sed -e 's/\//\\\//g' ; }
-sed -e 's/^home_domain=.*$/home_domain='$(escape $home_domain)'/g' \
-    </etc/clearwater/shared_config >/tmp/shared_config.$$
-mv /tmp/shared_config.$$ /etc/clearwater/shared_config
-
-# Restart clearwater-infrastructure to propagate changes to other configuration files.
-service clearwater-infrastructure restart
+# Update /etc/clearwater/shared_config, if the home domain has changed.
+if [ "$home_domain" != "$old_home_domain" ] ; then
+  function escape { echo $1 | sed -e 's/\//\\\//g' ; }
+  sed -e 's/^home_domain=.*$/home_domain='$(escape $home_domain)'/g' \
+      </etc/clearwater/shared_config >/tmp/shared_config.$$
+  mv /tmp/shared_config.$$ /etc/clearwater/shared_config
+  
+  # Restart clearwater-infrastructure to propagate changes to other configuration files.
+  service clearwater-infrastructure restart
+fi
 
 # Create new numbers in the new domain, if we've been asked to.
 if [ -n "$base_number" ] && [ -n "$number_count" ] ; then
   /usr/share/clearwater/ellis/env/bin/python /usr/share/clearwater/ellis/src/metaswitch/ellis/tools/create_numbers.py --start $base_number --count $number_count
 fi
 
-# Restart all the components.
-for X in /usr/share/clearwater/infrastructure/scripts/restart/* ; do $X ; done
+# Restart all the components, if the home domain has changed.
+if [ "$home_domain" != "$old_home_domain" ] ; then
+  # Work around https://github.com/Metaswitch/sprout/issues/1296.
+  service bono stop
+
+  # Restart all the processes.
+  for X in /usr/share/clearwater/infrastructure/scripts/restart/* ; do $X ; done
+fi
