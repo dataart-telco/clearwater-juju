@@ -33,10 +33,6 @@ Our ["Making your first call" documentation](http://clearwater.readthedocs.org/e
 
 This proxy charm exposes two actions.
 
--  `create-user`: Creates a user, failing if they already exist
-    -  `number`: The number to provision
-    -  `password`: The number's password
-
 -  `create-update-user`: Creates a user, or updates if they already exist
     -  `number`: The number to provision
     -  `password`: The number's password
@@ -44,9 +40,9 @@ This proxy charm exposes two actions.
 -  `delete-user`: Deletes a user
     -  `number`: The number to delete
 
-For example, `juju action do clearwater-aio-proxy/0 create-user number=\"1234567890\" password=secret` creates a user.  (Note that the escaped double-quotes are required to avoid juju parsing the number as an integer rather than a string.)
+For example, `juju action do clearwater-aio-proxy/0 create-update-user number=\"1234567890\" password=secret` creates a user.  (Note that the escaped double-quotes are required to avoid juju parsing the number as an integer rather than a string.)
 
-Note that the numbers specified in `create-user` and `delete-user` actions need not be in the number range specified in the configuration above.
+Note that the numbers specified in `create-update-user` and `delete-user` actions need not be in the number range specified in the configuration above.
 
 # Contact and Upstream Project Information
 
