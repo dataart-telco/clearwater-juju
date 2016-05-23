@@ -389,17 +389,12 @@ do_checksum() {
     echo "Comparing checksum with shasum..."
     checksum=`shasum -a 256 $1 | awk '{ print $1 }'`
     return `test "x$checksum" = "x$2"`
-  elif exists md5sum; then
-    echo "Comparing checksum with md5sum..."
-    checksum=`md5sum $1 | awk '{ print $1 }'`
-    return `test "x$checksum" = "x$3"`
-  elif exists md5; then
-    echo "Comparing checksum with md5..."
-    # this is for md5 utility on MacOSX (OSX 10.6-10.10) and $4 is the correct field
-    checksum=`md5 $1 | awk '{ print $4 }'`
+  elif exists sha1sum; then
+    echo "Comparing checksum with sha1sum..."
+    checksum=`sha1sum $1 | awk '{ print $1 }'`
     return `test "x$checksum" = "x$3"`
   else
-    echo "WARNING: could not find a valid checksum program, pre-install shasum, md5sum or md5 in your O/S image to get valdation..."
+    echo "WARNING: could not find a valid checksum program, pre-install shasum, sha256sum or sha1sum in your O/S image to get valdation..."
     return 0
   fi
 }
@@ -524,7 +519,7 @@ do_download "$metadata_url"  "$metadata_filename"
 cat "$metadata_filename"
 
 # check that all the mandatory fields in the downloaded metadata are there
-if grep '^url' $metadata_filename > /dev/null && grep '^sha256' $metadata_filename > /dev/null && grep '^md5' $metadata_filename > /dev/null; then
+if grep '^url' $metadata_filename > /dev/null && grep '^sha256' $metadata_filename > /dev/null && grep '^sha1' $metadata_filename > /dev/null; then
   echo "downloaded metadata file looks valid..."
 else
   echo "downloaded metadata file is corrupted or an uncaught error was encountered in downloading the file..."
@@ -560,13 +555,13 @@ download_dir=`dirname $download_filename`
 (umask 077 && mkdir -p $download_dir) || exit 1
 
 sha256=`awk '$1 == "sha256" { print $2 }' "$metadata_filename"`
-md5=`awk '$1 == "md5" { print $2 }' "$metadata_filename"`
+sha1=`awk '$1 == "sha1" { print $2 }' "$metadata_filename"`
 
 # check if we have that file locally available and if so verify the checksum
 cached_file_available="false"
 if test -f $download_filename; then
   echo "$download_filename already exists, verifiying checksum..."
-  if do_checksum "$download_filename" "$sha256" "$md5"; then
+  if do_checksum "$download_filename" "$sha256" "$sha1"; then
     echo "checksum compare succeeded, using existing file!"
     cached_file_available="true"
   else
@@ -577,7 +572,7 @@ fi
 # download if no local version of the file available
 if test "x$cached_file_available" != "xtrue"; then
   do_download "$download_url"  "$download_filename"
-  do_checksum "$download_filename" "$sha256" "$md5" || checksum_mismatch
+  do_checksum "$download_filename" "$sha256" "$sha1" || checksum_mismatch
 fi
 
 if test "x$version" = "x"; then
