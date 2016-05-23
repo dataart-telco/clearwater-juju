@@ -14,7 +14,7 @@ Fortunately, we've set up a Juju bundle that ties all these charms and their rel
 
 A Clearwater system can be deployed in a Juju environment by creating a bundle-config.yaml file then running the following commands.
 
-    git clone -b dnsaas https://github.com/Metaswitch/clearwater-juju.git
+    git clone https://github.com/Metaswitch/clearwater-juju.git
     cd clearwater-juju
     JUJU_REPOSITORY=charms juju-deployer -c charms/bundles/clearwater/bundle/bundles.yaml -c bundle-config.yaml
 
@@ -26,7 +26,7 @@ See [bundle-config.yaml.example](bundle-config.yaml.example), which lists the ma
 
 This repository contains Amulet tests for automated testing. To run them, use:
 
-    git clone -b dnsaas https://github.com/Metaswitch/clearwater-juju.git
+    git clone https://github.com/Metaswitch/clearwater-juju.git
     cd clearwater-juju
     JUJU_REPOSITORY=charms juju test -o logs -v -p JUJU_REPOSITORY,HOME --timeout=1200s
 
