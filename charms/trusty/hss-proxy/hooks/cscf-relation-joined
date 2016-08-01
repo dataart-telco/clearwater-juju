@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+relation-set public-address=$(unit-get public-address)
+relation-set hss-realm=$(config-get hss_realm)
+relation-set hss-port=$(config-get hss_port)

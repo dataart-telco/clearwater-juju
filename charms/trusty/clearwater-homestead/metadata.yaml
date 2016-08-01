@@ -6,6 +6,9 @@ categories:
   - misc
 subordinate: false
 requires:
+  hss:
+    interface: 3GPP-Cx
+    optional: true
   programmable-multiple:
     interface: dns-multi
 provides:

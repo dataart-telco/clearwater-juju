@@ -1,0 +1,10 @@
+name: hss-proxy
+summary: Proxy charm for the 3GPP-Cx interface to the HSS
+maintainer: Project Clearwater Maintainers <maintainers@projectclearwater.org>
+description: Proxy charm for the 3GPP-Cx interface to the HSS
+tags:
+  - misc
+subordinate: false
+provides:
+  cscf:
+    interface: 3GPP-Cx
