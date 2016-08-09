@@ -1,0 +1,13 @@
+options:
+  hss_host:
+    default: ""
+    description: The host on which the HSS is running
+    type: string
+  hss_realm:
+    default: ""
+    description: The realm to which the HSS belongs
+    type: string
+  hss_port:
+    default: 3868
+    description: The port on which the HSS listens
+    type: int

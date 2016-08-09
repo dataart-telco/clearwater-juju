@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+# Do nothing - we're a proxy charm.
