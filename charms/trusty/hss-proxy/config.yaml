@@ -1,4 +1,8 @@
 options:
+  hss_host:
+    default: ""
+    description: The host on which the HSS is running
+    type: string
   hss_realm:
     default: ""
     description: The realm to which the HSS belongs

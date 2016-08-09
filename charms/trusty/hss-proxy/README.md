@@ -1,9 +1,10 @@
 # Overview
 
-This is a proxy [Juju charm](https://jujucharms.com/about) for the 3GPP-Cx interface to the HSS.  It does not provide HSS function.
+This is a proxy [Juju charm](https://jujucharms.com/about) for the 3GPP-Cx interface to the HSS.  Since it is just a proxy, it does not actually provide HSS function - it can just be configured with the location of the HSS, and then terminate the relation with the 3GPP-Cx user.
 
 # Configuration
 
+-  `hss_host`: The host on which the HSS is running.
 -  `hss_realm`: The realm to which the HSS belongs.
 -  `hss_port`: The port on which the HSS listens.
 
