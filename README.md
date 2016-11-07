@@ -1,39 +1,29 @@
-# Overview
+Software versions.
+1. Juju 2.0-beta12-xenial-amd64
+2. Ubuntu Precise 12.04.5 image for instances( i was tried 12.04.4, but in my case juju can't raise up instances. Juju agent can't fetch tools from controller node due to error: "curl: (35) error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version" . Such behavior has led to the eternal "pending" status of juju workagent )
 
-This repository contains a collection of [Juju charms and deployment bundles](https://jujucharms.com/about), which support deployment and scaling of a [Project Clearwater](http://www.projectclearwater.org) IMS core.
+You can use tar.gz archive or try to deploy it from scratch
 
-This repository also contains a proxy charm for managing an all-in-one node spun up from an OVA or QCOW2 image - for more information on that, see [its README.md](charms/trusty/clearwater-aio-proxy/README.md).
+From Archive
+1. wget https://www.dropbox.com/s/mndr2nq5axtykqp/clearwater-juju.tar.gz
+2. tar -xzvf clearwater-juju.tar.gz
+3. cd ./clearwater-juju/charms/bundles/clearwater/bundle/
+4. juju deploy ./local_bundle.yaml
 
-# Usage
-
-Before deploying this charm, you should have bootstrapped a Juju environment, as documented at https://jujucharms.com/docs/stable/getting-started. This charm has been tested on Amazon EC2, with plans to test on OpenStack in the near future - if you get it working on a different cloud service, please let us know!
-
-Clearwater is a reasonably complex system (especially compared to typical beginner Juju examples like Wordpress + MySQL) - deploying a Clearwater IMS core involves deploying and configuring six or seven charms and adding relations between them.
-
-Fortunately, we've set up a Juju bundle that ties all these charms and their relations together, allowing a full system to be deployed in a single step. The bundle contains some default configuration, but additional configuration files can be used to customise the deployment - see [bundle-config.yaml.example](bundle-config.yaml.example) for an example.
-
-A Clearwater system can be deployed in a Juju environment by creating a bundle-config.yaml file then running the following commands.
-
-    git clone https://github.com/Metaswitch/clearwater-juju.git
-    cd clearwater-juju
-    JUJU_REPOSITORY=charms juju-deployer -c charms/bundles/clearwater/bundle/bundles.yaml -c bundle-config.yaml
-
-# Configuration
-
-See [bundle-config.yaml.example](bundle-config.yaml.example), which lists the main configuration fields with comments about their meanings.
-
-# Testing
-
-This repository contains Amulet tests for automated testing. To run them, use:
-
-    git clone https://github.com/Metaswitch/clearwater-juju.git
-    cd clearwater-juju
-    JUJU_REPOSITORY=charms juju test -o logs -v -p JUJU_REPOSITORY,HOME --timeout=1200s
-
-# Contact and Upstream Project Information
-
-Project Clearwater is an open-source IMS core, developed by [Metaswitch Networks](http://www.metaswitch.com) and released under the [GNU GPLv3](http://www.projectclearwater.org/download/license/). You can find more information about it on [our website](http://www.projectclearwater.org/) or [our documentation site](https://clearwater.readthedocs.org).
-
-Clearwater source code and issue trackers can be found at https://github.com/Metaswitch/.
-
-If you have problems when using Project Clearwater, read [our troubleshooting documentation](http://clearwater.readthedocs.org/en/latest/Troubleshooting_and_Recovery/index.html) for help, or see [our support page](http://clearwater.readthedocs.org/en/latest/Support/index.html) to find out how to ask mailing list questions or raise issues.
+From scratch.
+1. You should use Release-100 tag of CW IMS from here https://github.com/Metaswitch/clearwater-juju/
+   May be useful -> http://julienrenaux.fr/2013/10/04/how-to-automatically-checkout-the-latest-tag-of-a-git-repository/
+   or simply execute :
+   git checkout Release-100
+2. Rewrite bundle.yaml to make it executable by juju deploy command because it seems that juju 2.0 could work only with local paths like this "charm: ../../../precise/clearwater-sprout"
+   Use local precise version for CW charms and cs:~lazypower/precise/dns-3 for DNS
+3. When all CW nodes will be deployed and DNS charm failed with "hook failure: install"
+   In separate tmux window execute "juju debug-hooks <dns_unit_name>"
+   In other tmux window type "juju resolved --retry <dns_unit_name>"
+   Return to debug window and do next:
+   		sudo apt-get install python-dns
+   		sudo apt-get install python-jinja2
+   		rm -rf /etc/bind/zone-backup
+   		cd ./hooks
+   		./install
+   Then you should execute called hooks by hands or if they don't exist just type "exit". After you finish this process all should works fine.
