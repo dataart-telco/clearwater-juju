@@ -32,9 +32,9 @@ class ProgrammableBroken(object):
         domain = relation_get('domain')
         alias = relation_get('alias')
         addr = relation_get('addr')
-        ##rr = relation_get('rr').upper()
+        rr = relation_get('rr').upper()
 
-        parsed = {'domain': domain, 'alias': alias, 'addr': addr}
+        parsed = {'domain': domain, 'alias': alias, 'addr': addr, 'rr': rr}
 
         if self.config['provider'] == 'bind':
             bp = BindProvider()
