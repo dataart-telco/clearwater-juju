@@ -38,8 +38,10 @@ class ProgrammableBroken(object):
 
         if self.config['provider'] == 'bind':
             bp = BindProvider()
-            bp.remove_record(parsed, domain)
-
+            try:
+                bp.remove_record(parsed, domain)
+            except:
+                pass
 
 
 if __name__ == '__main__':
